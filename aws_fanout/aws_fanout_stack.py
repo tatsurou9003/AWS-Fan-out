@@ -43,7 +43,7 @@ class AwsFanoutStack(Stack):
             handler="publisher.lambda_publisher",
             code=lambda_.Code.from_asset("lambda"),
             environment={
-                'TOPIC_ARN': f'arn:aws:sns:{region}:{account_id}:MyStandardSNSTopic'
+                'TOPIC_ARN': f'arn:aws:sns:{region}:{account_id}:SNSTopic'
             }
         )
         
