@@ -1,3 +1,4 @@
+import os
 from aws_cdk import (
     Duration,
     Stack,
@@ -6,7 +7,6 @@ from aws_cdk import (
     aws_sns_subscriptions as subscriptions,
     aws_sqs as sqs,
     aws_lambda_event_sources as event_sources,
-    core,
 )
 from constructs import Construct
 
@@ -14,6 +14,9 @@ class AwsFanoutStack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+
+        account_id = os.getenv["AWS_ACCOUNT_ID"]
+        region = os.getenv["AWS_REGION"]
 
         sns_topic = sns.Topic(
             self, "SNSTopic",
@@ -38,7 +41,10 @@ class AwsFanoutStack(Stack):
             self, "PublisherLambda",
             runtime=lambda_.Runtime.PYTHON_3_12,
             handler="publisher.lambda_publisher",
-            code=lambda_.Code.from_asset("lambda")
+            code=lambda_.Code.from_asset("lambda"),
+            environment={
+                'TOPIC_ARN': f'arn:aws:sns:{region}:{account_id}:MyStandardSNSTopic'
+            }
         )
         
         # Lambda関数にSNSのPublish権限を付与
