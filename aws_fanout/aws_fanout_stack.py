@@ -15,8 +15,8 @@ class AwsFanoutStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        account_id = os.getenv["AWS_ACCOUNT_ID"]
-        region = os.getenv["AWS_REGION"]
+        account_id = os.getenv('AWS_ACCOUNT_ID')
+        region = os.getenv('AWS_REGION"')
 
         sns_topic = sns.Topic(
             self, "SNSTopic",
@@ -43,7 +43,7 @@ class AwsFanoutStack(Stack):
             handler="publisher.lambda_publisher",
             code=lambda_.Code.from_asset("lambda"),
             environment={
-                'TOPIC_ARN': f'arn:aws:sns:{region}:{account_id}:SNSTopic'
+                'TOPIC_ARN': sns_topic.topic_arn
             }
         )
         
