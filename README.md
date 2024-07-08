@@ -1,7 +1,10 @@
 ## AWS-Certifiedで散々見たFan-Out構成をプロトタイピングしたくなった。
+・SNSのメッセージをSQSにキューイングすることでスケーラブルな構成を実現できる。  
+・マイクロサービスとかでめっちゃ重宝されると思われ。
 ![lambda_sns_sqs_fanout](https://github.com/tatsurou9003/AWS-Fan-out/assets/99654281/7add0b2b-01f8-4647-9b39-44c2d203eaba)
 
-
+### memo
+・SQSのキューに送られたメッセージは自動削除されないが、Lambdaと統合することで、Lambdaが自動で削除してくれる。
 ## Welcome to your CDK Python project!
 
 This is a blank project for CDK development with Python.
